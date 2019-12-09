@@ -16,10 +16,10 @@ function App() {
   const [downState, setDownState] = useState(1);
   const [awayState, setAwayState] = useState(0);
   const [quarterState, setQuarterState] = useState(1);
-  const [msState, setMsState] = useState(10);
-  const [secState, setSecState] = useState("");
+  const [msState, setMsState] = useState(0);
+  const [secState, setSecState] = useState(0);
   const [minTensState, setMinTensState] = useState("");
-  const [minOnesState, setMinOnesState] = useState(10);
+  const [minOnesState, setMinOnesState] = useState(15);
 
   //timer state
   useEffect(() => {
@@ -73,11 +73,12 @@ function App() {
           
 
         }
-      },11000)
-
+      },61000)
 
     }
+    
     timer();
+    
 
   })
 
@@ -96,7 +97,7 @@ function App() {
         <HomeBtns homeState = {homeState} setHomeState = {setHomeState}/>
         <AwayBtns awayState = {awayState} setAwayState = {setAwayState} />
         <DownBtns setDownState = {setDownState} downState = {downState}/>
-        <ResetBtn setDownState = {setDownState} setHomeState = {setHomeState} setAwayState = {setAwayState} setQuarterState= {setQuarterState}/>
+        <ResetBtn setDownState = {setDownState} setHomeState = {setHomeState} setAwayState = {setAwayState} setQuarterState= {setQuarterState} setMsState={setMsState} setSecState = {setSecState} setMinTensState = {setMinTensState} setMinOnesState = {setMinOnesState}/>
         <QuarterBtn setQuarterState= {setQuarterState} quarterState = {quarterState}/>
       </section>
     </div>
