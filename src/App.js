@@ -19,7 +19,7 @@ function App() {
   const [msState, setMsState] = useState(0);
   const [secState, setSecState] = useState(0);
   const [minTensState, setMinTensState] = useState("");
-  const [minOnesState, setMinOnesState] = useState(15);
+  const [minOnesState, setMinOnesState] = useState(10);
 
   //timer state
   useEffect(() => {
@@ -49,31 +49,32 @@ function App() {
           clearInterval(thisTimer);
         } 
         
+        let thatTimer = setInterval(() => {
+          if (stop === false){
+            if (minOnesState > 10){
+              clearInterval(thatTimer);
+              setMinOnesState(minOnesState-1);
+              
+            } else if (minOnesState < 11 && minOnesState > 0){
+              // console.log("please");
+              setMinTensState(0); 
+              clearInterval(thatTimer);
+              setMinOnesState(minOnesState-1);
+              
+              
+            
+            } else {
+              clearInterval(thatTimer);
+              stop = true;
+            }
+            
+  
+          }
+        },10000)
 
       }, 1000);
 
-      let thatTimer = setInterval(() => {
-        if (stop === false){
-          if (minOnesState > 10){
-            clearInterval(thatTimer);
-            setMinOnesState(minOnesState-1);
-            
-          } else if (minOnesState < 11 && minOnesState > 0){
-            console.log("please");
-            setMinTensState(0); 
-            clearInterval(thatTimer);
-            setMinOnesState(minOnesState-1);
-            
-            
-          
-          } else if (minOnesState === 0){
-            clearInterval(thatTimer);
-            stop = true;
-          }
-          
-
-        }
-      },61000)
+   
 
     }
     
