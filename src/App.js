@@ -1,40 +1,105 @@
 //TODO: STEP 1 - Import the useState hook.
-import React from "react";
+import React, {useState, useEffect} from "react";
 import "./App.css";
-import BottomRow from "./BottomRow";
+import BottomRow from "./BottomRow"
+import Scoreboard from "./components/Scoreboard";
+import HomeBtns from "./components/HomeBtns";
+import AwayBtns from "./components/AwayBtns";
+import DownBtns from "./components/DownBtns";
+import ResetBtn from "./components/ResetBtn";
+import QuarterBtn from "./components/QuarterBtn";
 
 function App() {
   //TODO: STEP 2 - Establish your applictaion's state with some useState hooks.  You'll need one for the home score and another for the away score.
 
+  const [homeState, setHomeState] = useState(0);
+  const [downState, setDownState] = useState(1);
+  const [awayState, setAwayState] = useState(0);
+  const [quarterState, setQuarterState] = useState(1);
+  const [msState, setMsState] = useState(0);
+  const [secState, setSecState] = useState(0);
+  const [minTensState, setMinTensState] = useState("");
+  const [minOnesState, setMinOnesState] = useState(10);
+
+  //timer state
+  useEffect(() => {
+    let stop = false;
+    function timer(){
+      clearInterval(timer);
+      let thisTimer = setInterval(() => {
+        if (stop === false){
+          if (msState === 0){
+            clearInterval(thisTimer);
+            
+            setSecState("");
+            setMsState(59)
+            
+          } else if (msState < 11 && msState > 0){
+            clearInterval(thisTimer);
+            
+            setSecState(0);
+            setMsState(msState-1);
+          } else {
+            clearInterval(thisTimer);
+            setMsState(msState -1);
+            
+          }
+        } 
+        else {
+          clearInterval(thisTimer);
+        } 
+        
+        let thatTimer = setInterval(() => {
+          if (stop === false){
+            if (minOnesState > 10){
+              clearInterval(thatTimer);
+              setMinOnesState(minOnesState-1);
+              
+            } else if (minOnesState < 11 && minOnesState > 0){
+              // console.log("please");
+              setMinTensState(0); 
+              clearInterval(thatTimer);
+              setMinOnesState(minOnesState-1);
+              
+              
+            
+            } else {
+              clearInterval(thatTimer);
+              stop = true;
+            }
+            
+  
+          }
+        },10000)
+
+      }, 1000);
+
+   
+
+    }
+    
+    timer();
+    
+
+  })
+
+
+
+  
+
   return (
     <div className="container">
       <section className="scoreboard">
-        <div className="topRow">
-          <div className="home">
-            <h2 className="home__name">Lions</h2>
-
-            {/* TODO STEP 3 - We need to change the hardcoded values in these divs to accept dynamic values from our state. */}
-
-            <div className="home__score">32</div>
-          </div>
-          <div className="timer">00:03</div>
-          <div className="away">
-            <h2 className="away__name">Tigers</h2>
-            <div className="away__score">32</div>
-          </div>
-        </div>
-        <BottomRow />
+        <Scoreboard homeState = {homeState} awayState = {awayState} msState = {msState} secState = {secState} minTensState = {minTensState} minOnesState = {minOnesState}/>
+        <BottomRow downState = {downState} quarterState = {quarterState} />
       </section>
+      
       <section className="buttons">
-        <div className="homeButtons">
-          {/* TODO STEP 4 - Now we need to attach our state setter functions to click listeners. */}
-          <button className="homeButtons__touchdown">Home Touchdown</button>
-          <button className="homeButtons__fieldGoal">Home Field Goal</button>
-        </div>
-        <div className="awayButtons">
-          <button className="awayButtons__touchdown">Away Touchdown</button>
-          <button className="awayButtons__fieldGoal">Away Field Goal</button>
-        </div>
+        <HomeBtns homeState = {homeState} setHomeState = {setHomeState}/>
+        <AwayBtns awayState = {awayState} setAwayState = {setAwayState} />
+        <DownBtns setDownState = {setDownState} downState = {downState}/>
+        <ResetBtn setDownState = {setDownState} setHomeState = {setHomeState} setAwayState = {setAwayState} setQuarterState= {setQuarterState} setMsState={setMsState} setSecState = {setSecState} setMinTensState = {setMinTensState} setMinOnesState = {setMinOnesState}/>
+        <QuarterBtn setQuarterState= {setQuarterState} quarterState = {quarterState}/>
       </section>
     </div>
   );
